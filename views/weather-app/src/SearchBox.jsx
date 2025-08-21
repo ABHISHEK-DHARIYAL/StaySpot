@@ -6,8 +6,8 @@ import Button from "@mui/material/Button";
 export default function SearchBox({ updateInfo, initialCity = "" }) {
   let [city, setCity] = useState(initialCity);
   let [error, setError] = useState(false);
-  const API_URL = process.env.Weather_API_URL;
-  const API_KEY = process.env.Weather_API_KEY;
+  const API_URL = process.env.VITE_Weather_API_URL;
+  const API_KEY = process.env.VITE_Weather_API_KEY;
 
   let getWeatherInfo = async () => {
     try {
