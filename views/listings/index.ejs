@@ -1,0 +1,33 @@
+<% layout("/layouts/boilerplate") -%> <%- include("headerForIndex") %>
+<br /><br />
+<div class="row row-cols-1 row-cols-md-3 g-4 px-4">
+  <% for(let listing of allListings) { %>
+  <div class="col">
+    <a
+      href="/listings/<%= listing._id %>"
+      class="text-decoration-none text-dark"
+    >
+      <div class="card h-100 shadow-sm">
+        <img
+          src="<%= listing.image.url %>"
+          class="card-img-top"
+          alt="listing image"
+          style="height: 20rem; object-fit: cover"
+        />
+        <div class="card-body">
+          <h5 class="card-title"><%= listing.title %></h5>
+          <p
+            class="card-text mb-1 price-info"
+            data-base-price="<%= listing.price || 1200 %>"
+          >
+            ₹ <%= listing.price ? listing.price.toLocaleString("en-IN") :
+            "1,200" %> / night
+            <i class="tax-info" style="display: none">&nbsp;+18% GST</i>
+          </p>
+          <p class="card-text"><%= listing.location %></p>
+        </div>
+      </div>
+    </a>
+  </div>
+  <% } %>
+</div>

@@ -1,0 +1,155 @@
+<div class="col-8 offset-2 mt-4">
+  <% if (currUser && currUser._id.toString() !== listing.owner._id.toString()) {
+  %>
+  <hr />
+  <h2 class="mb-3"><b>Leave a Reviews</b></h2>
+  <form
+    action="/listings/<%=listing._id%>/reviews"
+    method="POST"
+    novalidate
+    class="needs-validation"
+  >
+    <div class="mb-3">
+      <fieldset class="starability-slot star-small-inline">
+        <legend>Rating:</legend>
+        <input
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
+          name="review[rating]"
+          value="1"
+          checked
+          aria-label="No rating."
+        />
+        <input type="radio" id="rate1" name="review[rating]" value="1" />
+        <label for="rate1" title="Terrible">1 star</label>
+        <input type="radio" id="rate2" name="review[rating]" value="2" />
+        <label for="rate2" title="Not good">2 stars</label>
+        <input type="radio" id="rate3" name="review[rating]" value="3" />
+        <label for="rate3" title="Average">3 stars</label>
+        <input type="radio" id="rate4" name="review[rating]" value="4" />
+        <label for="rate4" title="Very good">4 stars</label>
+        <input type="radio" id="rate5" name="review[rating]" value="5" />
+        <label for="rate5" title="Amazing">5 stars</label>
+      </fieldset>
+    </div>
+    <div class="mb-3">
+      <label for="comment" class="form-label">Comments</label>
+      <textarea
+        name="review[comment]"
+        id="comment"
+        rows="4"
+        class="form-control"
+        required
+        aria-required="true"
+      ></textarea>
+      <div class="invalid-feedback">Comment is required.</div>
+    </div>
+    <button class="btn btn-outline-primary">Submit</button>
+  </form>
+</div>
+<% } %> <% if(listing.reviews.length > 0) { %>
+<hr />
+<h4><b>All Reviews:</b></h4>
+<div class="review_parent">
+  <% for (let review of listing.reviews) { %>
+  <div class="card listingReview">
+    <div class="card-body">
+      <h5 class="card-title">@<%= review.author.username %></h5>
+      <p class="card-text"><%= review.comment %></p>
+      <p
+        class="starability-result card-text star-small"
+        data-rating="<%= review.rating %>"
+      ></p>
+    </div>
+    <% if (currUser && review.author && review.author._id.equals(currUser._id))
+    { %>
+    <form
+      method="POST"
+      class="mb-3"
+      action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+    >
+      <button class="btn btn-dark delete-btn">Delete</button>
+    </form>
+    <% } %>
+  </div>
+  <% } %>
+</div>
+<% } %>
+
+<hr />
+<script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
+<link
+  href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
+  rel="stylesheet"
+/>
+<div class="col-8 offset-2 mt-4">
+  <h3>Where You'll Be</h3>
+  <div id="map"></div>
+</div>
+<br />
+<script>
+  const lati = <%= JSON.stringify(listing?.geometry?.lat || 0) %>;
+  const long = <%= JSON.stringify(listing?.geometry?.lon || 0) %>;
+  const place = <%- JSON.stringify(listing.location) %>;
+  const place1 = <%- JSON.stringify(listing.country) %>;
+
+  const map = new maplibregl.Map({
+    container: "map",
+    style: {
+      version: 8,
+      sources: {
+        osm: {
+          type: "raster",
+          tiles: ["https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
+          tileSize: 256,
+          attribution: "© OpenStreetMap contributors",
+        },
+      },
+      layers: [
+        {
+          id: "osm",
+          type: "raster",
+          source: "osm",
+          minzoom: 0,
+          maxzoom: 15,
+        },
+      ],
+    },
+    center: [long, lati],
+    zoom: 5,
+  });
+
+  const popup = new maplibregl.Popup({
+    offset: 25,
+    className: "custom-popup",
+    closeButton: false,
+    closeOnClick: false,
+  }).setHTML(
+    `<div style="font-size:14px; font-weight:bold;">
+      <h4><i>${place}, ${place1}</i></h4><br>
+      <small>Exact location after booking</small>
+    </div>`
+  );
+
+  const marker = new maplibregl.Marker({ color: "#FF5722" })
+    .setLngLat([long, lati])
+    .addTo(map);
+
+  marker.getElement().addEventListener("click", () => {
+    popup.setLngLat([long, lati]).addTo(map);
+  });
+
+  const showPopup = () => {
+    popup.setLngLat([long, lati]).addTo(map);
+    map.easeTo({ center: [long, lati], offset: [0, -80], duration: 300 });
+  };
+
+  marker.getElement().addEventListener("mouseenter", () => {
+    popup.setLngLat([long, lati]).addTo(map);
+  });
+
+  marker.getElement().addEventListener("mouseleave", () => {
+    popup.remove();
+  });
+</script>

@@ -1,0 +1,54 @@
+<% layout("/layouts/boilerplate") %>
+<div class="row mt-3">
+  <div class="col-12 col-md-8 offset-md-2">
+    <h3><%= listing.title %></h3>
+  </div>
+  <br />
+  <div class="card col-12 col-md-6 offset-md-3 show-card listing-card">
+    <img
+      src="<%= listing.image.url %>"
+      class="card-img-top show-img rounded"
+      alt="listing_image"
+    />
+    <div class="card-body">
+      <br />
+      <p class="card-text">
+        <i class="fa-solid fa-user"></i> <%= listing.owner.username %>
+      </p>
+      <p class="card-text"><%= listing.description %></p>
+      <p class="card-text"><b>&#8377; <%= listing.price %> </b>/ night</p>
+      <p class="card-text">
+        <%= listing.location ? listing.location : "Jaipur,Rajasthan" %>
+      </p>
+      <p class="card-text">
+        <%= listing.country ? listing.country : "INDIA" %>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-3">
+<form action="/weather" method="GET">
+  <input
+    type="hidden"
+    name="location"
+    value="<%= listing?.location || 'Jaipur,Rajasthan' %>"
+  />
+  <button class="btn btn-weatherApp">
+    <%= listing?.location || 'Jaipur,Rajasthan' %> Climate
+  </button>
+</form>
+  &nbsp; &nbsp;
+  <% if(currUser) { %>
+    <a href="/listings/<%= listing._id %>/edit" class="btn btn-editBtn"> Edit </a>
+    &nbsp; &nbsp;
+    <form
+      action="/listings/<%= listing._id %>?_method=DELETE"
+      method="POST"
+      class="m-0"
+    >
+      <button class="btn btn-deleteBtn delete-btn">Delete</button>
+    </form>
+  </div>
+  <% } %>
+</div>
+<%- include("Reviews", { listing: listing }) %>

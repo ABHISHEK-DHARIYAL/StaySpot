@@ -1,0 +1,206 @@
+<style>
+  .tax-toggle-box {
+    margin-top: 8px;
+    text-align: right;
+    padding: 5px 10px;
+  }
+
+  .tax-toggle-box .form-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tax-toggle-box .form-check-input {
+    cursor: pointer;
+    width: 2.2em;
+    height: 1.2em;
+  }
+
+  .tax-toggle-box .form-check-label {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  body.dark-theme .tax-toggle-box .form-check-label {
+    color: #f1f1f1;
+  }
+
+  @media (max-width: 575.98px) {
+    .tax-toggle-box {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .tax-toggle-box .form-check-label {
+      font-size: 0.9rem;
+    }
+
+    .tax-toggle-box .form-check-input {
+      width: 2em;
+      height: 1.1em;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .tax-toggle-box {
+      padding: 5px;
+      margin-top: 10px;
+    }
+
+    .tax-toggle-box .form-check {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tax-toggle-box .form-check-label {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .tax-toggle-box .form-check-label {
+      font-size: 0.8rem;
+    }
+
+    .tax-toggle-box .form-check-input {
+      width: 1.8em;
+      height: 1em;
+    }
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+/>
+
+<div id="filters">
+  <div class="scrollable-tabs-container">
+    <div class="left-arrow">
+      <i class="fas fa-chevron-left"></i>
+    </div>
+    <div class="right-arrow">
+      <i class="fas fa-chevron-right"></i>
+    </div>
+    <div class="filter-container" name="listing[category]">
+      <a class="filter active" href="/listings">
+        <div><i class="fas fa-house"></i></div>
+        <p>All</p>
+      </a>
+      <a class="filter" href="/listings/filter/Iconic-cities">
+        <div><i class="fas fa-city"></i></div>
+        <p>Iconic cities</p>
+      </a>
+      <a class="filter" href="/listings/filter/Mountains">
+        <div><i class="fas fa-mountain"></i></div>
+        <p>Mountains</p>
+      </a>
+      <a class="filter" href="/listings/filter/Castles">
+        <div><i class="fas fa-chess-rook"></i></div>
+        <p>Castles</p>
+      </a>
+      <a class="filter" href="/listings/filter/Amazing-pools">
+        <div><i class="fas fa-person-swimming"></i></div>
+        <p>Pools</p>
+      </a>
+      <a class="filter" href="/listings/filter/Rooms">
+        <div><i class="fas fa-bed"></i></div>
+        <p>Rooms</p>
+      </a>
+      <a class="filter" href="/listings/filter/Camping">
+        <div><i class="fas fa-campground"></i></div>
+        <p>Camping</p>
+      </a>
+      <a class="filter" href="/listings/filter/Farms">
+        <div><i class="fas fa-tractor"></i></div>
+        <p>Farms</p>
+      </a>
+      <a class="filter" href="/listings/filter/Arctic">
+        <div><i class="fas fa-snowflake"></i></div>
+        <p>Arctic</p>
+      </a>
+      <a class="filter" href="/listings/filter/Domes">
+        <div><i class="fas fa-igloo"></i></div>
+        <p>Domes</p>
+      </a>
+      <a class="filter" href="/listings/filter/Boats">
+        <div><i class="fas fa-ship"></i></div>
+        <p>Boats</p>
+      </a>
+      <a class="filter" href="/listings/filter/Beaches">
+        <div><i class="fas fa-umbrella-beach"></i></div>
+        <p>Beaches</p>
+      </a>
+      <a class="filter" href="/listings/filter/Deserts">
+        <div><i class="fas fa-sun"></i></div>
+        <p>Deserts</p>
+      </a>
+      <a class="filter" href="/listings/filter/Forests">
+        <div><i class="fas fa-tree"></i></div>
+        <p>Forests</p>
+      </a>
+    </div>
+  </div>
+  <div class="tax-toggle-box">
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="flexswitchCheckChecked"
+        checked
+      />
+      <label class="form-check-label" for="flexswitchCheckChecked">
+        Total Fare (Post-Tax)
+      </label>
+    </div>
+  </div>
+</div>
+
+<script>
+  const filterContainer = document.querySelector(".filter-container");
+  const leftArrow = document.querySelector(".left-arrow");
+  const rightArrow = document.querySelector(".right-arrow");
+
+  function updateArrows() {
+    leftArrow.classList.toggle("active", filterContainer.scrollLeft > 0);
+    rightArrow.classList.toggle(
+      "active",
+      filterContainer.scrollWidth >
+        filterContainer.clientWidth + filterContainer.scrollLeft + 1
+    );
+  }
+
+  updateArrows();
+  filterContainer.addEventListener("scroll", updateArrows);
+
+  leftArrow.addEventListener("click", () => {
+    filterContainer.scrollBy({ left: -150, behavior: "smooth" });
+  });
+  rightArrow.addEventListener("click", () => {
+    filterContainer.scrollBy({ left: 150, behavior: "smooth" });
+  });
+
+  document
+    .getElementById("flexswitchCheckChecked")
+    .addEventListener("change", (e) => {
+      updatePriceDisplay(e.target.checked);
+    });
+
+  function updatePriceDisplay(isTaxSwitchOn) {
+    document.querySelectorAll(".price-info").forEach((priceInfo) => {
+      const basePrice = parseFloat(priceInfo.dataset.basePrice);
+      const totalPrice = isTaxSwitchOn
+        ? calculateTotalPrice(basePrice)
+        : basePrice;
+      priceInfo.innerHTML =
+        `&#8377; ${totalPrice.toLocaleString("en-IN")} /night` +
+        (isTaxSwitchOn ? ` <i class="tax"> &nbsp;with 18% GST</i>` : "");
+    });
+  }
+
+  function calculateTotalPrice(basePrice) {
+    return basePrice + (basePrice * 18) / 100;
+  }
+</script>
