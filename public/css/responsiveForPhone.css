@@ -86,9 +86,6 @@
   .navbar form button .search-icon {
     margin-right: 0;
   }
-  .navbar form button span {
-    display: none;
-  }
 }
 
 .navbar form .search-inp {
