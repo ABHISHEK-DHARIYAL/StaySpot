@@ -19,6 +19,9 @@
     <!-- Your CSS -->
     <link rel="stylesheet" href="/css/style.css" />
 
+    <!-- loader css link -->
+    <link rel="stylesheet" href="/css/loader.css" />
+
     <!-- Requring the Rating CSS file -->
     <link rel="stylesheet" href="/css/rating.css" />
 
@@ -44,6 +47,9 @@
     />
   </head>
   <body class="d-flex flex-column min-vh-100">
+    <div id="loader">
+      <div class="dual-ring"></div>
+    </div>
     <%- include("../includes/navbar.ejs") %>
     <!-- Flash Message taking File -->
     <%- include("../includes/flash.ejs") %>
