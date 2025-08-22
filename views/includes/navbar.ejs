@@ -238,6 +238,24 @@
   setupNavbar();
   window.addEventListener("resize", setupNavbar);
 
+  const searchInput = document.querySelector(
+    '.navbar-search input[type="search"]'
+  );
+  searchInput?.addEventListener("focus", () => {
+    if (window.innerWidth < 768 && !isOpen) {
+      showAll();
+      isOpen = true;
+    }
+  });
+
+  const searchForm = document.querySelector(".navbar-search form");
+  searchForm?.addEventListener("submit", () => {
+    if (window.innerWidth < 768 && isOpen) {
+      hideAll();
+      isOpen = false;
+    }
+  });
+
   toggler.addEventListener("click", () => {
     if (window.innerWidth < 768) {
       if (!isOpen) {
