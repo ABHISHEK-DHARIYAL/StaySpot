@@ -127,6 +127,10 @@ module.exports.updateRoute = async (req, res) => {
             format: "json",
             limit: 1,
           },
+          headers: {
+            "User-Agent": "WanderlustApp/1.0 (support@wanderlustapp.com)", // REQUIRED for production
+            "Accept-Language": "en",
+          },
         }
       );
 
@@ -136,7 +140,6 @@ module.exports.updateRoute = async (req, res) => {
           lon: parseFloat(geoRes.data[0].lon),
         };
       } else {
-        // Default to 0 if no result
         updatedData.geometry = { lat: 0, lon: 0 };
       }
     } catch (err) {
@@ -146,9 +149,7 @@ module.exports.updateRoute = async (req, res) => {
   }
 
   // 4️ Try to find and update listing
-  const listing = await Listing.findByIdAndUpdate(id, updatedData, {
-    new: true,
-  });
+  await Listing.findByIdAndUpdate(id, updatedData, { new: true });
 
   // 6️ Success
   req.flash("success", "Listing Updated!");
