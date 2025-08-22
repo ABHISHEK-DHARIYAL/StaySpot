@@ -3,6 +3,7 @@
 <div class="col-8 offset-2 row mt-3">
   <h3 class="my-3">Edit Your Listing</h3>
   <form
+    id="listingForm"
     method="POST"
     action="/listings/<%= listing._id %>?_method=PUT"
     novalidate

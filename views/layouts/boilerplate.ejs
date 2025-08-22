@@ -59,14 +59,25 @@
     <%- include("../includes/footer.ejs") %>
 
     <script>
-      window.addEventListener("load", () => {
+      document.addEventListener("DOMContentLoaded", () => {
         const loader = document.getElementById("loader");
-        if (loader) {
-          loader.style.opacity = "0"; // start fade-out
-          setTimeout(() => {
-            loader.style.display = "none"; // hide completely
-          }, 300); // match the CSS transition duration
-        }
+
+        // Show loader on any form submission
+        const forms = document.querySelectorAll("form");
+        forms.forEach((form) => {
+          form.addEventListener("submit", () => {
+            if (loader) {
+              loader.classList.remove("hidden"); // show loader
+            }
+          });
+        });
+
+        // Hide loader after page loads
+        window.addEventListener("load", () => {
+          if (loader) {
+            loader.classList.add("hidden"); // fade out
+          }
+        });
       });
     </script>
 

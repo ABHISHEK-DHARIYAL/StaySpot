@@ -725,7 +725,14 @@ select {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  opacity: 1;
+  pointer-events: all;
   transition: opacity 0.3s ease;
+}
+
+#loader.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .dual-ring {
