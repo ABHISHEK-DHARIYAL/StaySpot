@@ -98,18 +98,25 @@ module.exports.editRoute = async (req, res) => {
 
 module.exports.updateRoute = async (req, res) => {
   let { id } = req.params;
+
+  // 1️ Check for invalid ObjectId format
   if (!mongoose.Types.ObjectId.isValid(id)) {
     req.flash("error", `Listing You requested {${id}} does not exist`);
     return res.redirect("/listings");
   }
-  const currentListing = await Listing.findById(id);
+
+  // Prepare the update data
   let updatedData = { ...req.body.listing };
+
+  // 2️ Handle image update if a new file is uploaded
   if (req.file) {
     updatedData.image = {
       url: req.file.path,
       filename: req.file.filename,
     };
   }
+
+  // 3️ Update geometry if location and country are provided
   if (updatedData.location && updatedData.country) {
     try {
       const geoRes = await axios.get(
@@ -122,24 +129,28 @@ module.exports.updateRoute = async (req, res) => {
           },
         }
       );
+
       if (geoRes.data.length > 0) {
         updatedData.geometry = {
           lat: parseFloat(geoRes.data[0].lat),
           lon: parseFloat(geoRes.data[0].lon),
         };
       } else {
-        updatedData.geometry = currentListing.geometry;
+        // Default to 0 if no result
+        updatedData.geometry = { lat: 0, lon: 0 };
       }
     } catch (err) {
       console.error("Geocoding error:", err);
-      updatedData.geometry = currentListing.geometry;
+      updatedData.geometry = { lat: 0, lon: 0 };
     }
-  } else {
-    updatedData.geometry = currentListing.geometry;
   }
-  await Listing.findByIdAndUpdate(id, updatedData, {
+
+  // 4️ Try to find and update listing
+  const listing = await Listing.findByIdAndUpdate(id, updatedData, {
     new: true,
   });
+
+  // 6️ Success
   req.flash("success", "Listing Updated!");
   res.redirect(`/listings/${id}`);
 };
