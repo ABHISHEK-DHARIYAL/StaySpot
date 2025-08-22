@@ -127,7 +127,7 @@ module.exports.updateRoute = async (req, res) => {
           lon: parseFloat(geoRes.data[0].lon),
         };
       } else {
-        updatedData.geometry = { lat: 0, lon: 0 };
+        updatedData.geometry = listing.geometry;
       }
     } catch (err) {
       console.error("Geocoding error:", err);
