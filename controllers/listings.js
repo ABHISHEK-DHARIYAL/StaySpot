@@ -102,6 +102,7 @@ module.exports.updateRoute = async (req, res) => {
     req.flash("error", `Listing You requested {${id}} does not exist`);
     return res.redirect("/listings");
   }
+  const currentListing = await Listing.findById(id);
   let updatedData = { ...req.body.listing };
   if (req.file) {
     updatedData.image = {
@@ -127,14 +128,16 @@ module.exports.updateRoute = async (req, res) => {
           lon: parseFloat(geoRes.data[0].lon),
         };
       } else {
-        updatedData.geometry = listing.geometry;
+        updatedData.geometry = currentListing.geometry;
       }
     } catch (err) {
       console.error("Geocoding error:", err);
-      updatedData.geometry = { lat: 0, lon: 0 };
+      updatedData.geometry = currentListing.geometry;
     }
+  } else {
+    updatedData.geometry = currentListing.geometry;
   }
-  const listing = await Listing.findByIdAndUpdate(id, updatedData, {
+  await Listing.findByIdAndUpdate(id, updatedData, {
     new: true,
   });
   req.flash("success", "Listing Updated!");

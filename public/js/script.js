@@ -16,9 +16,22 @@
   });
 })();
 
+let loaderTimeout;
+document.addEventListener("DOMContentLoaded", () => {
+  loaderTimeout = setTimeout(() => {
+    showLoader();
+  }, 100);
+});
+window.addEventListener("load", () => {
+  clearTimeout(loaderTimeout);
+  hideLoader();
+});
 function showLoader() {
   const loader = document.getElementById("loader");
-  if (loader) loader.style.display = "flex";
+  if (loader) {
+    loader.style.display = "flex";
+    loader.style.opacity = "1";
+  }
 }
 function hideLoader() {
   const loader = document.getElementById("loader");
@@ -29,6 +42,3 @@ function hideLoader() {
     }, 300);
   }
 }
-window.addEventListener("load", () => {
-  hideLoader();
-});
