@@ -95,6 +95,11 @@
       height: 0.9rem;
     }
   }
+
+  .navbar-nav.d-flex {
+    align-items: center;
+    gap: 0.5rem;
+  }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
@@ -116,6 +121,51 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
+      </div>
+      <button
+        id="budgetToggleBtn"
+        class="btn btn-outline-primary ms-2 buttonForBudget"
+        type="button"
+      >
+        Filter by Budget ▼
+      </button>
+      <div id="budgetFilterContainer" class="collapsed ms-4">
+        <form
+          id="budgetFilterForm"
+          action="/listings"
+          method="get"
+          class="mb-4"
+        >
+          <fieldset>
+            <legend class="font-semibold mb-2">Select Budget Ranges:</legend>
+            <label>
+              <input type="checkbox" name="budget" value="0-1000" <%= budget &&
+              budget.includes('0-1000') ? 'checked' : '' %> > Under ₹1000 </label
+            ><br />
+            <label>
+              <input type="checkbox" name="budget" value="1000-3000" <%= budget
+              && budget.includes('1000-3000') ? 'checked' : '' %> > ₹1000 -
+              ₹3000 </label
+            ><br />
+            <label>
+              <input type="checkbox" name="budget" value="3000-5000" <%= budget
+              && budget.includes('3000-5000') ? 'checked' : '' %> > ₹3000 -
+              ₹5000 </label
+            ><br />
+            <label>
+              <input type="checkbox" name="budget" value="5000-10000" <%= budget
+              && budget.includes('5000-10000') ? 'checked' : '' %> > ₹5000 -
+              ₹10,000 </label
+            ><br />
+            <label>
+              <input type="checkbox" name="budget" value="10000-" <%= budget &&
+              budget.includes('10000-') ? 'checked' : '' %> > Above ₹10,000 </label
+            ><br />
+            <a href="/listings" class="inline-block mt-2"
+              >Clear budget filter</a
+            >
+          </fieldset>
+        </form>
       </div>
       <div class="d-flex flex-grow-1 justify-content-center navbar-search">
         <form
@@ -171,6 +221,44 @@
 </nav>
 
 <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("budgetToggleBtn");
+    const filterContainer = document.getElementById("budgetFilterContainer");
+
+    toggleBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      filterContainer.classList.toggle("active");
+      toggleBtn.textContent = filterContainer.classList.contains("active")
+        ? "Filter by Budget ▲"
+        : "Filter by Budget ▼";
+    });
+
+    document.addEventListener("click", (event) => {
+      const isClickInside =
+        toggleBtn.contains(event.target) ||
+        filterContainer.contains(event.target);
+
+      if (!isClickInside && filterContainer.classList.contains("active")) {
+        filterContainer.classList.remove("active");
+        toggleBtn.textContent = "Filter by Budget ▼";
+      }
+    });
+
+    document.querySelectorAll('input[name="budget"]').forEach((cb) => {
+      cb.addEventListener("change", () => {
+        const selected = Array.from(
+          document.querySelectorAll('input[name="budget"]:checked')
+        ).map((cb) => cb.value);
+        const url = new URL(window.location.href.split("?")[0]);
+        selected.forEach((b) => url.searchParams.append("budget", b));
+        window.location.href = url.toString();
+      });
+    });
+  });
+</script>
+
+<script>
   const themeToggle = document.getElementById("themeToggle");
   const themeIcon = document.getElementById("themeIcon");
 
@@ -189,6 +277,12 @@
       themeIcon.classList.replace("fa-sun", "fa-moon");
       localStorage.setItem("theme", "light");
     }
+
+    if (window.innerWidth < 768 && isOpen) {
+      hideAll();
+      isOpen = false;
+      toggler.setAttribute("aria-expanded", "false");
+    }
   });
 
   const toggler = document.querySelector(".navbar-toggler");
@@ -205,10 +299,19 @@
     "#navbarNavAltMarkup > .navbar-nav.ms-auto > form"
   );
   const taxBtn = document.querySelector(".navbar-tax");
+  const searchInput = document.querySelector(
+    '.navbar-search input[type="search"]'
+  );
+  const searchBtn = document.querySelector(".navbar-search .search-btn");
+  const budgetBtn = document.querySelector(".buttonForBudget");
 
   let isOpen = false;
 
   function hideAll() {
+    search?.classList.add("d-none");
+    searchInput?.classList.add("d-none");
+    searchBtn?.classList.add("d-none");
+    budgetBtn?.classList.add("d-none");
     themeBtn?.classList.add("d-none");
     exploreLink?.classList.add("d-none");
     authLinks.forEach((el) => el.classList.add("d-none"));
@@ -219,6 +322,10 @@
 
   function showAll() {
     search?.classList.remove("d-none");
+    searchInput?.classList.remove("d-none");
+    searchBtn?.classList.remove("d-none");
+    search?.classList.remove("d-none");
+    budgetBtn?.classList.remove("d-none");
     themeBtn?.classList.remove("d-none");
     exploreLink?.classList.remove("d-none");
     authLinks.forEach((el) => el.classList.remove("d-none"));
@@ -227,19 +334,50 @@
     nav.classList.add("menu-open");
   }
 
+  document.addEventListener("click", (event) => {
+    const isMenuClick =
+      nav.contains(event.target) || toggler.contains(event.target);
+    if (window.innerWidth < 768 && isOpen && !isMenuClick) {
+      hideAll();
+      isOpen = false;
+      toggler.setAttribute("aria-expanded", "false");
+    }
+  });
+
   function setupNavbar() {
     if (window.innerWidth < 768) {
       hideAll();
+      isOpen = false;
     } else {
       showAll();
+      isOpen = true;
     }
   }
+
   setupNavbar();
   window.addEventListener("resize", setupNavbar);
 
-  const searchInput = document.querySelector(
-    '.navbar-search input[type="search"]'
-  );
+  budgetBtn?.addEventListener("click", () => {
+    if (window.innerWidth < 768 && !isOpen) {
+      showAll();
+      isOpen = true;
+    } else if (window.innerWidth < 768 && isOpen) {
+      hideAll();
+      isOpen = false;
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const isClickInside =
+      toggleBtn.contains(event.target) ||
+      filterContainer.contains(event.target);
+
+    if (!isClickInside && filterContainer.classList.contains("active")) {
+      filterContainer.classList.remove("active");
+      toggleBtn.textContent = "Filter by Budget ▼";
+    }
+  });
+
   searchInput?.addEventListener("focus", () => {
     if (window.innerWidth < 768 && !isOpen) {
       showAll();

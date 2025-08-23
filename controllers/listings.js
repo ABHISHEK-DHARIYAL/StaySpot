@@ -11,10 +11,43 @@ const { cloudinary } = require("../cloudConfig.js");
 const Review = require("../models/reviewSchema.js");
 const User = require("../models/userSchema.js");
 
+function parseBudget(budgetStr) {
+  const ok = /^(\d+)-(\d+)?$/.test(budgetStr);
+  if (!ok) return null;
+
+  const [minStr, maxStr] = budgetStr.split("-");
+  const min = Number(minStr);
+  const max = maxStr ? Number(maxStr) : null;
+
+  if (Number.isNaN(min)) return null;
+  if (max !== null && Number.isNaN(max)) return null;
+
+  return { min, max };
+}
+
 module.exports.indexRoute = async (req, res) => {
   try {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+    let budgets = req.query.budget;
+    if (!budgets) budgets = [];
+    if (!Array.isArray(budgets)) budgets = [budgets];
+    const filter = {};
+    if (budgets.length > 0) {
+      const orConditions = budgets
+        .map((budgetStr) => {
+          const parsed = parseBudget(budgetStr);
+          if (!parsed) return null;
+          const condition = {};
+          if (parsed.min !== undefined && parsed.min !== null)
+            condition.price = { $gte: parsed.min };
+          if (parsed.max !== null)
+            condition.price = { ...condition.price, $lte: parsed.max };
+          return condition;
+        })
+        .filter(Boolean);
+      if (orConditions.length > 0) filter.$or = orConditions;
+    }
+    const allListings = await Listing.find(filter).lean();
+    res.render("listings/index.ejs", { allListings, budget: budgets });
   } catch (error) {
     console.log(error);
   }

@@ -774,3 +774,220 @@ select {
     border-width: 4px;
   }
 }
+
+.toggle-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.toggle-btn:hover {
+  background-color: #0056b3;
+}
+
+#budgetFilterContainer {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  min-width: 220px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.25s ease-in-out;
+}
+
+body.dark-theme #budgetFilterContainer {
+  background-color: #2b2b2b;
+  color: #f0f0f0;
+  border-color: #555;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+#budgetFilterContainer.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#budgetFilterContainer label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+#budgetFilterContainer label:hover {
+  background-color: #f0f0f0;
+}
+
+body.dark-theme #budgetFilterContainer label:hover {
+  background-color: #3a3a3a;
+}
+
+#budgetFilterContainer input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  position: relative;
+  outline: none;
+  transition: all 0.2s;
+}
+
+#budgetFilterContainer input[type="checkbox"]:hover {
+  border-color: #007bff;
+}
+
+#budgetFilterContainer input[type="checkbox"]:checked {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+#budgetFilterContainer input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+}
+
+#budgetFilterContainer a {
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+#budgetFilterContainer a:hover {
+  text-decoration: underline;
+}
+
+#budgetFilterContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  z-index: 999;
+  display: none;
+}
+
+#budgetFilterContainer.active {
+  display: block;
+}
+
+#budgetFilterContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  width: 260px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  z-index: 1000;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+#budgetFilterContainer.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+body.dark-theme #budgetFilterContainer {
+  background-color: #2c2c2c;
+  border: 1px solid #555;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+#budgetFilterContainer legend {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+body.dark-theme #budgetFilterContainer legend {
+  color: #f1f1f1;
+}
+
+#budgetFilterContainer label {
+  display: block;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+#budgetFilterContainer label:hover {
+  background-color: #f5f5f5;
+}
+
+body.dark-theme #budgetFilterContainer label:hover {
+  background-color: #3c3c3c;
+}
+
+#budgetFilterContainer input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: #0d6efd;
+}
+
+#budgetFilterContainer a {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #0d6efd;
+  transition: color 0.2s ease;
+}
+
+#budgetFilterContainer a:hover {
+  color: #084298;
+}
+
+body.dark-theme #budgetFilterContainer a {
+  color: #66b2ff;
+}
+
+body.dark-theme #budgetFilterContainer a:hover {
+  color: #99ccff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
