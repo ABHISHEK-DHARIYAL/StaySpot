@@ -309,8 +309,6 @@
 
   function hideAll() {
     search?.classList.add("d-none");
-    searchInput?.classList.add("d-none");
-    searchBtn?.classList.add("d-none");
     budgetBtn?.classList.add("d-none");
     themeBtn?.classList.add("d-none");
     exploreLink?.classList.add("d-none");
@@ -321,9 +319,6 @@
   }
 
   function showAll() {
-    search?.classList.remove("d-none");
-    searchInput?.classList.remove("d-none");
-    searchBtn?.classList.remove("d-none");
     search?.classList.remove("d-none");
     budgetBtn?.classList.remove("d-none");
     themeBtn?.classList.remove("d-none");
@@ -398,6 +393,7 @@
       if (!isOpen) {
         showAll();
         isOpen = true;
+        searchInput?.focus();
       } else {
         hideAll();
         isOpen = false;
