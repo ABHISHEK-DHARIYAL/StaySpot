@@ -1,0 +1,126 @@
+.tax-toggle-box {
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-left: 15px;
+}
+
+.tax-toggle-box label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.tax-toggle-box:hover {
+  border-color: #000;
+  background-color: #f7f7f7;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  transform: scale(1.02);
+}
+
+.dark-theme .tax-toggle-box {
+  border: 1px solid #50657a;
+  background-color: #3b5164;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .tax-toggle-box label {
+  color: #ecf0f1;
+}
+
+.dark-theme .tax-toggle-box:hover {
+  border-color: #1abc9c;
+  background-color: #34495e;
+  box-shadow: 0 3px 8px rgba(26, 188, 156, 0.4);
+  transform: scale(1.02);
+}
+
+.tax-toggle-box {
+  margin-top: 8px;
+  text-align: right;
+  padding: 5px 10px;
+}
+
+.tax-toggle-box .form-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tax-toggle-box .form-check-input {
+  cursor: pointer;
+  width: 2.2em;
+  height: 1.2em;
+}
+
+.tax-toggle-box .form-check-label {
+  font-size: 0.95rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+body.dark-theme .tax-toggle-box .form-check-label {
+  color: #f1f1f1;
+}
+
+@media (max-width: 767.98px) {
+  .tax-toggle-box {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4em 0.6em;
+    margin-top: 10px;
+    text-align: center;
+    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+    border-radius: 999px;
+  }
+  .tax-toggle-box .form-check {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
+  .tax-toggle-box .form-check-label {
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+    white-space: nowrap;
+  }
+  .tax-toggle-box .form-check-input {
+    width: clamp(1.8em, 4vw, 2.2em);
+    height: clamp(1em, 2vw, 1.2em);
+  }
+}
+
+@media (max-width: 269.98px) {
+  .tax-toggle-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3em 0.5em;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  .tax-toggle-box .form-check {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em;
+  }
+  .tax-toggle-box .form-check-label {
+    white-space: normal;
+    font-size: 0.7rem;
+  }
+  .tax-toggle-box .form-check-input {
+    width: 1.5em;
+    height: 0.9em;
+  }
+}
