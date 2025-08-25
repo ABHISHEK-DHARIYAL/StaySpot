@@ -1,6 +1,6 @@
-# 🌍 Wanderlust
+# 🌍 StaySpot
 
-Wanderlust is a **full-stack MERN project** inspired by Airbnb, with additional features to make travel planning more seamless.  
+StaySpot is a **full-stack MERN project** inspired by Airbnb, with additional features to make travel planning more seamless.  
 It includes:
 
 - 🏠 Listing and booking system

@@ -161,7 +161,7 @@ module.exports.updateRoute = async (req, res) => {
             limit: 1,
           },
           headers: {
-            "User-Agent": "WanderlustApp/1.0 (support@wanderlustapp.com)", // REQUIRED for production
+            "User-Agent": "StaySpot/1.0 (support@stayspot.com)", // REQUIRED for production
             "Accept-Language": "en",
           },
         }
