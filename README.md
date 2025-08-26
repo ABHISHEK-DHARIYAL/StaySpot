@@ -99,8 +99,8 @@ CLOUD_API_KEY=your_cloudinary_api_key
 CLOUD_API_SECRET=your_cloudinary_api_secret
 
 # 🌦 Weather API
-VITE_Weather_API_URL=https://api.openweathermap.org/data/2.5
+VITE_Weather_API_URL=
 VITE_Weather_API_KEY=your_weather_api_key
 
-4️⃣ Start the website
+4️⃣ **Start the website**
 node app.js
