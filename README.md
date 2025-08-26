@@ -77,14 +77,14 @@ StaySpot is a **full-stack MERN project** inspired by Airbnb, enhanced with addi
 
 ## 📂 Project Setup
 
-1️⃣ Clone the repository
+**1️⃣ Clone the repository** <br>
 git clone https://github.com/ABHISHEK-DHARIYAL/StaySpot.git
 
-2️⃣ Install dependencies <br>
+**2️⃣ Install dependencies** <br>
 **Install server dependencies** <br>
 npm install
 
-3️⃣ Create a .env file <br>
+**3️⃣ Create a .env file** <br>
 In the project root, create a .env file and configure it with your credentials:
 
 **🌐 Database** <br>
