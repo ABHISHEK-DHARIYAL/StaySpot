@@ -80,27 +80,27 @@ StaySpot is a **full-stack MERN project** inspired by Airbnb, enhanced with addi
 1️⃣ Clone the repository
 git clone https://github.com/ABHISHEK-DHARIYAL/StaySpot.git
 
-2️⃣ Install dependencies
-# Install server dependencies <br>
+2️⃣ Install dependencies <br>
+**Install server dependencies** <br>
 npm install
 
-3️⃣ Create a .env file
+3️⃣ Create a .env file <br>
 In the project root, create a .env file and configure it with your credentials:
 
-# 🌐 Database
+**🌐 Database** <br>
 ATLASDB_URL=your_mongodb_connection_string
 
-# 🔒 Authentication
+**🔒 Authentication** <br>
 SECERT=your_jwt_secret
 
-# ☁️ Cloudinary Configuration
+**☁️ Cloudinary Configuration** <br>
 CLOUD_NAME=your_cloudinary_name <br>
 CLOUD_API_KEY=your_cloudinary_api_key <br>
 CLOUD_API_SECRET=your_cloudinary_api_secret <br>
 
-# 🌦 Weather API
+**🌦 Weather API** <br>
 VITE_Weather_API_URL= <br>
 VITE_Weather_API_KEY=your_weather_api_key <br>
 
-4️⃣ **Start the website** <br>
+**4️⃣ Start the website** <br>
 node app.js
